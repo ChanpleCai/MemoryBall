@@ -56,6 +56,9 @@ namespace MemoryBall
         {
             MainBorder.Opacity = 0.7;
             MainGrid.Opacity = 1;
+            _memoryInfo.ToolTipMessage =
+                $"占用：{(((_mEmorystatusex.ullTotalPhys - _mEmorystatusex.ullAvailPhys) / 1073741824.0)):F1}/{((_mEmorystatusex.ullTotalPhys / 1073741824.0)):F1}G\r\n" +
+                $"提交：{(((_mEmorystatusex.ullTotalPageFile - _mEmorystatusex.ullAvailPageFile) / 1073741824.0)):F1}/{((_mEmorystatusex.ullTotalPageFile / 1073741824.0)):F1}G";
         }
 
         private void Window_MouseLeave(object sender, MouseEventArgs e)

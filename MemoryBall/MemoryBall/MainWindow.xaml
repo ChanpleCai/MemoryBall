@@ -8,7 +8,7 @@
         Background="Transparent" IsTabStop="False" Topmost="True" 
         ResizeMode="NoResize" ShowInTaskbar="False" MouseLeftButtonDown="Window_MouseLeftButtonDown" AllowDrop="True" 
         Loaded="Window_Loaded" MouseEnter="Window_MouseEnter" MouseLeave="Window_MouseLeave" MouseDoubleClick="Window_MouseDoubleClick" Drop="Window_Drop" MouseWheel="Window_MouseWheel">
-    <Grid Name="MainGrid" Cursor="Hand" Opacity="0.8">
+    <Grid Name="MainGrid" Cursor="Hand" Opacity="0.8" ToolTip="{Binding Path=ToolTipMessage}">
         <Border Name="MainBorder" BorderThickness="0" CornerRadius="38" Background="#FF1E1E1E" Opacity="0.3"/>
         <Path Fill="{Binding Path=FillColor}" Opacity="0.8">
             <Path.Data>

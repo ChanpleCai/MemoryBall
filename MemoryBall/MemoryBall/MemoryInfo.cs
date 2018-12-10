@@ -96,6 +96,20 @@ namespace MemoryBall
                 UpdateMemoryInfo();
             }
         }
+
+        private string _toolTipMessage;
+
+        public string ToolTipMessage
+        {
+            get => _toolTipMessage;
+            set
+            {
+                if (_toolTipMessage == value) return;
+                _toolTipMessage = value;
+                OnPropertyChanged("ToolTipMessage");
+            }
+        }
+
         #endregion
 
         #region 信息更新函数
