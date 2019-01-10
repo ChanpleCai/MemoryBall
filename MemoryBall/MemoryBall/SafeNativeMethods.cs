@@ -96,5 +96,11 @@ namespace MemoryBall
         private static extern IntPtr IntSetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
         #endregion
 
+        #region SendMessageW
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr SendMessageW(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
+
+        #endregion
     }
 }

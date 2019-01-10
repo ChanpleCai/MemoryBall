@@ -118,6 +118,19 @@ namespace MemoryBall
 
         private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
         {
+            if (_isLeftCtrlDown)
+            {
+                var handle = new WindowInteropHelper(this).Handle;
+                if (e.Delta > 0)
+                {
+                    SendMessageW(handle, 0x319, handle, (IntPtr)0xA0000);
+                    return;
+                }
+
+                SendMessageW(handle, 0x319, handle, (IntPtr)0x90000);
+                return;
+            }
+
             int currentBrightness = 50;
             //https://blogs.technet.microsoft.com/heyscriptingguy/2013/07/25/use-powershell-to-report-and-set-monitor-brightness/
             using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(new ManagementScope("root\\WMI"), new SelectQuery("WmiMonitorBrightness")))
@@ -180,6 +193,29 @@ namespace MemoryBall
                 }
             }
             _infoUpdatetimer.Start();
+        }
+
+        private void MainWindow_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Clipboard.SetText(Guid.NewGuid().ToString());
+        }
+
+
+        private static bool _isLeftCtrlDown;
+        private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.LeftCtrl)
+            {
+                _isLeftCtrlDown = true;
+            }
+        }
+
+        private void MainWindow_OnKeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.LeftCtrl)
+            {
+                _isLeftCtrlDown = false;
+            }
         }
     }
 }
