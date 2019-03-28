@@ -37,7 +37,7 @@ namespace MemoryBall
         {
             GlobalMemoryStatusEx(out _mEmorystatusex);
             _memoryInfo.MemLoad = _mEmorystatusex.dwMemoryLoad;
-            _memoryInfo.FillColor = "LawnGreen";
+            _memoryInfo.FillColor = SystemParameters.WindowGlassBrush;;
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) => DragMove();
@@ -116,106 +116,9 @@ namespace MemoryBall
                 UIOption.AllDialogs, RecycleOption.SendToRecycleBin);
         }
 
-        private void Window_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if (_isLeftCtrlDown)
-            {
-                var handle = new WindowInteropHelper(this).Handle;
-                if (e.Delta > 0)
-                {
-                    SendMessageW(handle, 0x319, handle, (IntPtr)0xA0000);
-                    return;
-                }
-
-                SendMessageW(handle, 0x319, handle, (IntPtr)0x90000);
-                return;
-            }
-
-            int currentBrightness = 50;
-            //https://blogs.technet.microsoft.com/heyscriptingguy/2013/07/25/use-powershell-to-report-and-set-monitor-brightness/
-            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(new ManagementScope("root\\WMI"), new SelectQuery("WmiMonitorBrightness")))
-            {
-                using (ManagementObjectCollection objectCollection = searcher.Get())
-                {
-                    foreach (var o in objectCollection)
-                    {
-                        currentBrightness = Convert.ToInt32(((ManagementObject)o).Properties["CurrentBrightness"].Value);
-                        break;
-                    }
-                }
-            }
-
-            if (e.Delta > 0)
-            {
-                if (currentBrightness >= 100)
-                {
-                    _memoryInfo.MemLoad = currentBrightness;
-                    _memoryInfo.FillColor = "DeepPink";
-                    _infoUpdatetimer.Start();
-                    return;
-                }
-
-                currentBrightness += 5;
-                if (currentBrightness > 100)
-                {
-                    currentBrightness = 100;
-                }
-            }
-            else
-            {
-                if (currentBrightness <= 0)
-                {
-                    _memoryInfo.MemLoad = currentBrightness;
-                    _memoryInfo.FillColor = "DeepPink";
-                    _infoUpdatetimer.Start();
-                    return;
-                }
-
-                currentBrightness -= 5;
-                if (currentBrightness < 0)
-                {
-                    currentBrightness = 0;
-                }
-            }
-
-            _infoUpdatetimer.Stop();
-            using (ManagementObjectSearcher searcher = new ManagementObjectSearcher(new ManagementScope("root\\WMI"), new SelectQuery("WmiMonitorBrightnessMethods")))
-            {
-                using (ManagementObjectCollection objectCollection = searcher.Get())
-                {
-                    foreach (var o in objectCollection)
-                    {
-                        ((ManagementObject)o).InvokeMethod("WmiSetBrightness", new object[] { uint.MaxValue, currentBrightness });
-                        _memoryInfo.MemLoad = currentBrightness;
-                        _memoryInfo.FillColor = "DeepPink";
-                        break;
-                    }
-                }
-            }
-            _infoUpdatetimer.Start();
-        }
-
         private void MainWindow_OnMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Clipboard.SetText(Guid.NewGuid().ToString());
-        }
-
-
-        private static bool _isLeftCtrlDown;
-        private void MainWindow_OnKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.LeftCtrl)
-            {
-                _isLeftCtrlDown = true;
-            }
-        }
-
-        private void MainWindow_OnKeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.LeftCtrl)
-            {
-                _isLeftCtrlDown = false;
-            }
+            Clipboard.SetText(Guid.NewGuid().ToString("N"));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using System.Windows.Media;
 
 namespace MemoryBall
 {
@@ -60,8 +61,8 @@ namespace MemoryBall
             }
         }
 
-        private string _fillColor;
-        public string FillColor
+        private Brush _fillColor;
+        public Brush FillColor
         {
             get => _fillColor;
             set

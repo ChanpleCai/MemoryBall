@@ -7,8 +7,8 @@
         Title="Memory" Height="76" Width="76" WindowStyle="None" AllowsTransparency="True" 
         Background="Transparent" IsTabStop="False" Topmost="True" 
         ResizeMode="NoResize" ShowInTaskbar="False" MouseLeftButtonDown="Window_MouseLeftButtonDown" AllowDrop="True" 
-        Loaded="Window_Loaded" MouseEnter="Window_MouseEnter" MouseLeave="Window_MouseLeave" MouseDoubleClick="Window_MouseDoubleClick" Drop="Window_Drop" MouseWheel="Window_MouseWheel"
-        MouseRightButtonDown="MainWindow_OnMouseRightButtonDown" KeyDown="MainWindow_OnKeyDown" KeyUp="MainWindow_OnKeyUp">
+        Loaded="Window_Loaded" MouseEnter="Window_MouseEnter" MouseLeave="Window_MouseLeave" MouseDoubleClick="Window_MouseDoubleClick" Drop="Window_Drop"
+        MouseRightButtonDown="MainWindow_OnMouseRightButtonDown">
     <Grid Name="MainGrid" Cursor="Hand" Opacity="0.8" ToolTip="{Binding Path=ToolTipMessage}">
         <Border Name="MainBorder" BorderThickness="0" CornerRadius="38" Background="#FF1E1E1E" Opacity="0.3"/>
         <Path Fill="{Binding Path=FillColor}" Opacity="0.8">
