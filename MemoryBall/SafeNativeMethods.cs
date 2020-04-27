@@ -8,12 +8,12 @@ namespace MemoryBall
     public static class SafeNativeMethods
     {
         #region GlobalMemoryStatusEx
+
         //https://msdn.microsoft.com/en-us/library/aa366589(VS.85).aspx
 
         [StructLayout(LayoutKind.Sequential)]
         public struct Memorystatusex
         {
-
             /// DWORD->unsigned int
             /// The size of the structure, in bytes. You must set this member before calling GlobalMemoryStatusEx.
             public uint dwLength;
@@ -35,7 +35,7 @@ namespace MemoryBall
 
             /// DWORDLONG->ULONGLONG->unsigned __int64
             /// The current committed memory limit for the system or the current process, whichever is smaller, in bytes. 
-            /// To get the system-wide committed memory limit, call GetPerformanceInfo. 
+            /// To get the system-wide committed memory limit, call GetPerformanceInfo.
             public ulong ullTotalPageFile;
 
             /// DWORDLONG->ULONGLONG->unsigned __int64
@@ -62,10 +62,10 @@ namespace MemoryBall
         }
 
         /// Return Type: BOOL->int
-        ///lpBuffer: LPMEMORYSTATUSEX->_MEMORYSTATUSEX*
+        /// lpBuffer: LPMEMORYSTATUSEX->_MEMORYSTATUSEX*
         [DllImport("kernel32.dll", EntryPoint = "GlobalMemoryStatusEx")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool GlobalMemoryStatusEx([Out()] out Memorystatusex lpBuffer);
+        public static extern bool GlobalMemoryStatusEx([Out] out Memorystatusex lpBuffer);
 
         #endregion
 
@@ -76,17 +76,12 @@ namespace MemoryBall
 
         public static void SetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong)
         {
-
             if (IntPtr.Size == 4)
-            {
                 // use SetWindowLong
                 IntSetWindowLong(hWnd, nIndex, dwNewLong);
-            }
             else
-            {
                 // use SetWindowLongPtr
                 IntSetWindowLongPtr(hWnd, nIndex, dwNewLong);
-            }
         }
 
         [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr")]
@@ -94,12 +89,6 @@ namespace MemoryBall
 
         [DllImport("user32.dll", EntryPoint = "SetWindowLong")]
         private static extern IntPtr IntSetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
-        #endregion
-
-        #region SendMessageW
-
-        [DllImport("user32.dll")]
-        public static extern IntPtr SendMessageW(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
 
         #endregion
     }

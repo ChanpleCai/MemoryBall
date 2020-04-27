@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27428.2002
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryBall", "MemoryBall\MemoryBall.csproj", "{967ADEEC-8A31-46A6-AF55-14757D3001D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryBall", "MemoryBall\MemoryBall.csproj", "{3B074BF1-8D0D-4849-8535-83560DA37EDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{967ADEEC-8A31-46A6-AF55-14757D3001D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{967ADEEC-8A31-46A6-AF55-14757D3001D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{967ADEEC-8A31-46A6-AF55-14757D3001D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{967ADEEC-8A31-46A6-AF55-14757D3001D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B074BF1-8D0D-4849-8535-83560DA37EDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B074BF1-8D0D-4849-8535-83560DA37EDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B074BF1-8D0D-4849-8535-83560DA37EDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B074BF1-8D0D-4849-8535-83560DA37EDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
