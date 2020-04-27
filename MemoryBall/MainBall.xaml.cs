@@ -73,7 +73,7 @@ namespace MemoryBall
         {
             _infoUpdatetimer.Stop();
 
-            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+            // ReSharper disable once SwitchStatementMissingSomeEnumCasesNoDefault
             switch (e.ChangedButton)
             {
                 case MouseButton.Left:
