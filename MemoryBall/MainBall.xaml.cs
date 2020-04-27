@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Timers;
@@ -53,18 +52,10 @@ namespace MemoryBall
 
         private void Window_MouseEnter(object sender, MouseEventArgs e)
         {
-            MainBorder.Opacity = 0.7;
-            MainGrid.Opacity = 1;
             const double d = 1073741824.0;
             _memoryInfo.ToolTipMessage =
                 $"占用：{(_mEmorystatusex.ullTotalPhys - _mEmorystatusex.ullAvailPhys) / d:F1}/{_mEmorystatusex.ullTotalPhys / d:F1} G\r\n" +
                 $"提交：{(_mEmorystatusex.ullTotalPageFile - _mEmorystatusex.ullAvailPageFile) / d:F1}/{_mEmorystatusex.ullTotalPageFile / d:F1} G";
-        }
-
-        private void Window_MouseLeave(object sender, MouseEventArgs e)
-        {
-            MainBorder.Opacity = 0.3;
-            MainGrid.Opacity = 0.8;
         }
 
         private void Window_Drop(object sender, DragEventArgs e)
@@ -81,23 +72,33 @@ namespace MemoryBall
         {
             _infoUpdatetimer.Stop();
 
-            await Task.Run(async () =>
+            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+            switch (e.ChangedButton)
             {
-                var temp = _memoryInfo.MemLoad;
-                for (int i = temp; i >= 0; i -= 2)
-                {
-                    _memoryInfo.MemLoad = i;
-                    await Task.Delay(15);
-                }
+                case MouseButton.Left:
+                    await Task.Run(async () =>
+                    {
+                        var temp = _memoryInfo.MemLoad;
+                        for (int i = temp; i >= 0; i -= 2)
+                        {
+                            _memoryInfo.MemLoad = i;
+                            await Task.Delay(15);
+                        }
 
-                for (int i = 0; i <= temp; i += 2)
-                {
-                    await Task.Delay(15);
-                    _memoryInfo.MemLoad = i;
-                }
+                        for (int i = 0; i <= temp; i += 2)
+                        {
+                            await Task.Delay(15);
+                            _memoryInfo.MemLoad = i;
+                        }
 
-                _memoryInfo.MemLoad = temp;
-            });
+                        _memoryInfo.MemLoad = temp;
+                    });
+                    break;
+                case MouseButton.Right:
+                    Environment.Exit(0);
+                    break;
+            }
+
 
             _infoUpdatetimer.Start();
         }
