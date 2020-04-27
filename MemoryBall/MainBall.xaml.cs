@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Timers;
@@ -84,6 +85,8 @@ namespace MemoryBall
                             _memoryInfo.MemLoad = i;
                             await Task.Delay(15);
                         }
+
+                        Process.Start("ie4uinit", "-show");
 
                         for (int i = 0; i <= temp; i += 2)
                         {
