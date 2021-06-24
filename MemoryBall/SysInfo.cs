@@ -6,6 +6,10 @@ namespace MemoryBall
 {
     public class SysInfo : INotifyPropertyChanged
     {
+        private const int R = 26;
+        private const int Rr = 36;
+        private const int Offset = 38;
+
         private readonly double[] _table =
         {
             0, 0.06279052, 0.125333234, 0.187381315, 0.248689887, 0.309016994,
@@ -15,22 +19,74 @@ namespace MemoryBall
             0.968583161, 0.982287251, 0.992114701, 0.998026728, 1
         };
 
-        private readonly Brush[] _brushes =
-        {
-            new SolidColorBrush(Color.FromRgb(76, 175, 80)),
-            new SolidColorBrush(Color.FromRgb(205, 220, 57)),
-            new SolidColorBrush(Color.FromRgb(255, 193, 7)),
-            new SolidColorBrush(Color.FromRgb(255, 87, 34))
-        };
-
-        private const int R = 26;
-        private const int Rr = 36;
-        private const int Offset = 38;
-
         public SysInfo()
+            => _innerPoint = _outerPoint = _inner = _outer = new Point(38, 2);
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        #region 信息更新函数
+
+        private void UpdateMemoryInfo()
         {
-            _innerPoint = _outerPoint = _inner = _outer = new Point(38, 2);
+            FillColor = SystemParameters.WindowGlassBrush;
+            MainLoad = $"{_memLoad}%";
+            switch (_memLoad)
+            {
+                case < 25:
+                    IsLargeArc = false;
+                    _inner.X = Offset + R * _table[_memLoad];
+                    _outer.X = Offset + Rr * _table[_memLoad];
+                    _inner.Y = Offset - R * _table[25 - _memLoad];
+                    _outer.Y = Offset - Rr * _table[25 - _memLoad];
+                    InnerPoint = _inner;
+                    OuterPoint = _outer;
+                    return;
+                case < 50:
+                    IsLargeArc = false;
+                    _inner.X = Offset + R * _table[50 - _memLoad];
+                    _outer.X = Offset + Rr * _table[50 - _memLoad];
+                    _inner.Y = Offset + R * _table[_memLoad - 25];
+                    _outer.Y = Offset + Rr * _table[_memLoad - 25];
+                    InnerPoint = _inner;
+                    OuterPoint = _outer;
+                    return;
+                case < 75:
+                    IsLargeArc = true;
+                    _inner.X = Offset - R * _table[_memLoad - 50];
+                    _outer.X = Offset - Rr * _table[_memLoad - 50];
+                    _inner.Y = Offset + R * _table[75 - _memLoad];
+                    _outer.Y = Offset + Rr * _table[75 - _memLoad];
+                    InnerPoint = _inner;
+                    OuterPoint = _outer;
+                    return;
+            }
+
+            IsLargeArc = true;
+
+            if (_memLoad < 100)
+            {
+                _inner.X = Offset - R * _table[100 - _memLoad];
+                _inner.Y = Offset - R * _table[_memLoad - 75];
+                _outer.X = Offset - Rr * _table[100 - _memLoad];
+                _outer.Y = Offset - Rr * _table[_memLoad - 75];
+                InnerPoint = _inner;
+                OuterPoint = _outer;
+                return;
+            }
+
+            _inner.X = Offset - R * 0.008726535;
+            _inner.Y = Offset - R * 0.999961923;
+            _outer.X = Offset - Rr * 0.008726535;
+            _outer.Y = Offset - Rr * 0.999961923;
+
+            InnerPoint = _inner;
+            OuterPoint = _outer;
         }
+
+        #endregion
+
+        protected void OnPropertyChanged(string propertyName)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
         #region 属性
 
@@ -59,20 +115,6 @@ namespace MemoryBall
                 if (_outerPoint == value) return;
                 _outerPoint = value;
                 OnPropertyChanged(nameof(OuterPoint));
-            }
-        }
-
-        private Brush _fillColor;
-
-        public Brush FillColor
-        {
-            get => _fillColor;
-            set
-            {
-                if (_fillColor == value) return;
-
-                _fillColor = value;
-                OnPropertyChanged(nameof(FillColor));
             }
         }
 
@@ -128,81 +170,19 @@ namespace MemoryBall
             }
         }
 
-        #endregion
+        private Brush _fillColor;
 
-        #region 信息更新函数
-
-        private void UpdateMemoryInfo()
+        public Brush FillColor
         {
-            MainLoad = $"{_memLoad}%";
-            if (_memLoad < 25)
+            get => _fillColor;
+            set
             {
-                IsLargeArc = false;
-                _inner.X = Offset + R * _table[_memLoad];
-                _outer.X = Offset + Rr * _table[_memLoad];
-                _inner.Y = Offset - R * _table[25 - _memLoad];
-                _outer.Y = Offset - Rr * _table[25 - _memLoad];
-                InnerPoint = _inner;
-                OuterPoint = _outer;
-                FillColor = _brushes[0];
-                return;
+                if (_fillColor == value) return;
+                _fillColor = value;
+                OnPropertyChanged(nameof(FillColor));
             }
-
-            if (_memLoad < 50)
-            {
-                IsLargeArc = false;
-                _inner.X = Offset + R * _table[50 - _memLoad];
-                _outer.X = Offset + Rr * _table[50 - _memLoad];
-                _inner.Y = Offset + R * _table[_memLoad - 25];
-                _outer.Y = Offset + Rr * _table[_memLoad - 25];
-                InnerPoint = _inner;
-                OuterPoint = _outer;
-                FillColor = _brushes[1];
-                return;
-            }
-
-            if (_memLoad < 75)
-            {
-                IsLargeArc = true;
-                _inner.X = Offset - R * _table[_memLoad - 50];
-                _outer.X = Offset - Rr * _table[_memLoad - 50];
-                _inner.Y = Offset + R * _table[75 - _memLoad];
-                _outer.Y = Offset + Rr * _table[75 - _memLoad];
-                InnerPoint = _inner;
-                OuterPoint = _outer;
-                FillColor = _brushes[2];
-                return;
-            }
-
-            IsLargeArc = true;
-
-            if (_memLoad < 100)
-            {
-                _inner.X = Offset - R * _table[100 - _memLoad];
-                _inner.Y = Offset - R * _table[_memLoad - 75];
-                _outer.X = Offset - Rr * _table[100 - _memLoad];
-                _outer.Y = Offset - Rr * _table[_memLoad - 75];
-                InnerPoint = _inner;
-                OuterPoint = _outer;
-                FillColor = _brushes[3];
-                return;
-            }
-
-            _inner.X = Offset - R * 0.008726535;
-            _inner.Y = Offset - R * 0.999961923;
-            _outer.X = Offset - Rr * 0.008726535;
-            _outer.Y = Offset - Rr * 0.999961923;
-
-            InnerPoint = _inner;
-            OuterPoint = _outer;
-            FillColor = _brushes[3];
         }
 
         #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

@@ -1,11 +1,11 @@
 ﻿using System.Windows;
 
-namespace MemoryBall.Core
+namespace MemoryBall
 {
     /// <summary>
     ///     Interaction logic for App.xaml
     /// </summary>
-    public class App : Application
+    public partial class App : Application
     {
     }
 }
