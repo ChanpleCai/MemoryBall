@@ -4,28 +4,28 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MemoryBall" Height="76" Width="76" WindowStyle="None" AllowsTransparency="True"
+        Title="MemoryBall" Height="66" Width="66" WindowStyle="None" AllowsTransparency="True"
         Background="Transparent" IsTabStop="False" Topmost="True"
         ResizeMode="NoResize" ShowInTaskbar="False" MouseLeftButtonDown="Window_MouseLeftButtonDown" AllowDrop="True"
         Loaded="Window_Loaded" MouseEnter="Window_MouseEnter"
         MouseDoubleClick="Window_MouseDoubleClick" >
     <Grid Name="MainGrid" Opacity="1" ToolTip="{Binding Path=ToolTipMessage}">
-        <Border Name="MainBorder" BorderThickness="0" CornerRadius="38" Background="#FF1E1E1E" Opacity="0.3" />
-        <Path Fill="{Binding Path=FillColor}" Opacity="0.8">
+        <Border Name="MainBorder" BorderThickness="0" CornerRadius="12" Background="#FF1E1E1E" Opacity="0.05" />
+        <Path Fill="{Binding Path=FillColor}" Opacity="0.7">
             <Path.Data>
                 <PathGeometry>
-                    <PathFigure StartPoint="38,12" IsClosed="True">
-                        <LineSegment Point="38,2" />
-                        <ArcSegment IsLargeArc="{Binding Path=IsLargeArc}" Size="36,36"
+                    <PathFigure StartPoint="33,11" IsClosed="True">
+                        <LineSegment Point="33,2" />
+                        <ArcSegment IsLargeArc="{Binding Path=IsLargeArc}" Size="31,31"
                                     Point="{Binding Path=OuterPoint}" SweepDirection="Clockwise" />
                         <LineSegment Point="{Binding Path=InnerPoint}" />
-                        <ArcSegment IsLargeArc="{Binding Path=IsLargeArc}" Size="26,26" Point="38,12" />
+                        <ArcSegment IsLargeArc="{Binding Path=IsLargeArc}" Size="22,22" Point="33,11" />
                     </PathFigure>
                 </PathGeometry>
             </Path.Data>
         </Path>
         <TextBlock Text="{Binding  Path=MainLoad}" HorizontalAlignment="Center" VerticalAlignment="Center"
-                   Foreground="WhiteSmoke"
-                   FontFamily="Consolas" FontSize="20" />
+                   Foreground="{Binding Path=FillColor}"
+                   FontFamily="Calibri" FontSize="14" Opacity="0.5"/>
     </Grid>
 </Window>

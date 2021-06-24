@@ -6,9 +6,9 @@ namespace MemoryBall
 {
     public class SysInfo : INotifyPropertyChanged
     {
-        private const int R = 26;
-        private const int Rr = 36;
-        private const int Offset = 38;
+        private const int R = 22;
+        private const int Rr = 31;
+        private const int Offset = 33;
 
         private readonly double[] _table =
         {
@@ -20,7 +20,7 @@ namespace MemoryBall
         };
 
         public SysInfo()
-            => _innerPoint = _outerPoint = _inner = _outer = new Point(38, 2);
+            => _innerPoint = _outerPoint = _inner = _outer = new Point(Offset, 2);
 
         public event PropertyChangedEventHandler PropertyChanged;
 
