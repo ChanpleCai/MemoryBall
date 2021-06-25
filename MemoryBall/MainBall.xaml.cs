@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Interop;
+using Windows.UI.ViewManagement;
 using static MemoryBall.SafeNativeMethods;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 using Point = System.Drawing.Point;
@@ -18,28 +18,42 @@ namespace MemoryBall
     /// </summary>
     public partial class MainBall
     {
-        private const int Constant = 5;
+        private const int Constant = 6;
+        private const int Interval = 250;
+
         private static bool _isMouseEnter;
         private readonly Timer _infoUpdatetimer;
-        private readonly SysInfo _memoryInfo;
-        private Memorystatusex _mEmorystatusex;
+        private readonly SysInfo _sysInfo;
 
         public MainBall()
         {
             InitializeComponent();
-            _mEmorystatusex = new Memorystatusex();
-            _mEmorystatusex.dwLength = (uint) Marshal.SizeOf(_mEmorystatusex);
-            _memoryInfo = new SysInfo();
-            MainGrid.DataContext = _memoryInfo;
-            _infoUpdatetimer = new Timer(500);
+            _sysInfo = new SysInfo();
+            MainGrid.DataContext = _sysInfo;
+            _infoUpdatetimer = new Timer(Interval);
             _infoUpdatetimer.Elapsed += InfoUpdatetimer_Elapsed;
             _infoUpdatetimer.Start();
+
+            ThemeHelper.Settings.ColorValuesChanged += Settings_ColorValuesChanged;
+            Settings_ColorValuesChanged(default, default);
+        }
+
+        private void Settings_ColorValuesChanged(UISettings sender, object args)
+        {
+            _ = Dispatcher.BeginInvoke(new Action(() =>
+            {
+                _sysInfo.BgColor = ThemeHelper.Background;
+                _sysInfo.NetColor = ThemeHelper.NetColor;
+                _sysInfo.CpuColor = ThemeHelper.CpuColor;
+                _sysInfo.MemColor = ThemeHelper.MemColor;
+            }));
         }
 
         private void InfoUpdatetimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            _ = GlobalMemoryStatusEx(out _mEmorystatusex);
-            _memoryInfo.MemLoad = _mEmorystatusex.dwMemoryLoad;
+            _sysInfo.MemLoad = PerformanceHelper.SetMemLoad();
+            _sysInfo.CpuLoad = PerformanceHelper.SetCpuLoad();
+            _sysInfo.NetLoad = PerformanceHelper.SetNetLoad();
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -58,21 +72,18 @@ namespace MemoryBall
         private async void Window_MouseEnter(object sender, MouseEventArgs e)
         {
             _isMouseEnter = true;
-            await Task.Delay(250);
+            await Task.Delay(Interval);
 
             if (!_isMouseEnter) return;
 
             if (Height + Top <= Constant)
             {
-                Top += Height - 5;
+                Top += Height - Constant;
                 _infoUpdatetimer.Start();
                 InfoUpdatetimer_Elapsed(default, default);
             }
 
-            const double d = 1073741824.0;
-            _memoryInfo.ToolTipMessage =
-                $"占用：{(_mEmorystatusex.ullTotalPhys - _mEmorystatusex.ullAvailPhys) / d:F1}/{_mEmorystatusex.ullTotalPhys / d:F1} G\r\n"
-                + $"提交：{(_mEmorystatusex.ullTotalPageFile - _mEmorystatusex.ullAvailPageFile) / d:F1}/{_mEmorystatusex.ullTotalPageFile / d:F1} G";
+            _sysInfo.ToolTipMessage = PerformanceHelper.GetToolTipMessage();
         }
 
         private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -88,17 +99,16 @@ namespace MemoryBall
         private async void MainBall_OnMouseLeave(object sender, MouseEventArgs e)
         {
             _isMouseEnter = false;
-            await Task.Delay(500);
+            await Task.Delay(Interval * 2);
 
             if (_isMouseEnter) return;
 
             var currentScreen = Screen.FromPoint(new Point((int) Left, (int) Top));
 
-            if (Top - currentScreen.WorkingArea.Top < Constant)
-            {
-                Top = Constant - Height;
-                _infoUpdatetimer.Stop();
-            }
+            if (!(Top - currentScreen.WorkingArea.Top < Constant)) return;
+
+            Top = Constant - Height;
+            _infoUpdatetimer.Stop();
         }
     }
 }

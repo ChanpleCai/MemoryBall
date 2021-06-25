@@ -6,9 +6,9 @@ namespace MemoryBall
 {
     public class SysInfo : INotifyPropertyChanged
     {
-        private const int R = 22;
-        private const int Rr = 31;
-        private const int Offset = 33;
+        private const int R = 34;
+        private const int Rr = 44;
+        private const int Offset = 46;
 
         private readonly double[] _table =
         {
@@ -28,8 +28,6 @@ namespace MemoryBall
 
         private void UpdateMemoryInfo()
         {
-            FillColor = SystemParameters.WindowGlassBrush;
-            MainLoad = $"{_memLoad}%";
             switch (_memLoad)
             {
                 case < 25:
@@ -157,29 +155,81 @@ namespace MemoryBall
             }
         }
 
-        private string _mainLoad;
+        private string _cpuLoad;
 
-        public string MainLoad
+        public string CpuLoad
         {
-            get => _mainLoad;
+            get => _cpuLoad;
             set
             {
-                if (_mainLoad == value) return;
-                _mainLoad = value;
-                OnPropertyChanged(nameof(MainLoad));
+                if (_cpuLoad == value) return;
+                _cpuLoad = value;
+                OnPropertyChanged(nameof(CpuLoad));
             }
         }
 
-        private Brush _fillColor;
+        private string _netLoad;
 
-        public Brush FillColor
+        public string NetLoad
         {
-            get => _fillColor;
+            get => _netLoad;
             set
             {
-                if (_fillColor == value) return;
-                _fillColor = value;
-                OnPropertyChanged(nameof(FillColor));
+                if (_netLoad == value) return;
+                _netLoad = value;
+                OnPropertyChanged(nameof(NetLoad));
+            }
+        }
+
+        private SolidColorBrush _memColor;
+
+        public SolidColorBrush MemColor
+        {
+            get => _memColor;
+            set
+            {
+                if (_memColor == value) return;
+                _memColor = value;
+                OnPropertyChanged(nameof(MemColor));
+            }
+        }
+
+        private SolidColorBrush _cpuColor;
+
+        public SolidColorBrush CpuColor
+        {
+            get => _cpuColor;
+            set
+            {
+                if (_cpuColor == value) return;
+                _cpuColor = value;
+                OnPropertyChanged(nameof(CpuColor));
+            }
+        }
+
+        private SolidColorBrush _netColor;
+
+        public SolidColorBrush NetColor
+        {
+            get => _netColor;
+            set
+            {
+                if (_netColor == value) return;
+                _netColor = value;
+                OnPropertyChanged(nameof(NetColor));
+            }
+        }
+
+        private SolidColorBrush _bgColor;
+
+        public SolidColorBrush BgColor
+        {
+            get => _bgColor;
+            set
+            {
+                if (_bgColor == value) return;
+                _bgColor = value;
+                OnPropertyChanged(nameof(BgColor));
             }
         }
 
