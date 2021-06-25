@@ -9,6 +9,7 @@ namespace MemoryBall
     public static class PerformanceHelper
     {
         private const int Capacity = 4;
+        private const double ThreeTimes = 1073741824;
         private static int Index;
         private static string LastCpuLoad;
         private static string LastNetLoad;
@@ -17,13 +18,12 @@ namespace MemoryBall
         private static long LastNetReceived;
 
         private static Memorystatusex MemoryStatus;
-        private const double ThreeTimes = 1073741824;
 
         private static readonly float[] CpuUsages = new float[Capacity];
 
         private static readonly PerformanceCounter CpuCounter = new("Processor", "% Processor Time", "_Total");
 
-        private static NetworkInterface[] NetInterfaces;
+        private static readonly NetworkInterface[] NetInterfaces;
 
         /// <summary>
         ///     ctor
