@@ -10,14 +10,14 @@ namespace MemoryBall
     {
         private const int Capacity = 4;
         private const double ThreeTimes = 1073741824;
-        private static int Index;
-        private static string LastCpuLoad;
-        private static string LastNetLoad;
+        private static int _index;
+        private static string _lastCpuLoad;
+        private static string _lastNetLoad;
 
-        private static long LastNetSend;
-        private static long LastNetReceived;
+        private static long _lastNetSend;
+        private static long _lastNetReceived;
 
-        private static Memorystatusex MemoryStatus;
+        private static Memorystatusex _memoryStatus;
 
         private static readonly float[] CpuUsages = new float[Capacity];
 
@@ -30,8 +30,8 @@ namespace MemoryBall
         /// </summary>
         static PerformanceHelper()
         {
-            MemoryStatus = new Memorystatusex();
-            MemoryStatus.dwLength = (uint) Marshal.SizeOf(MemoryStatus);
+            _memoryStatus = new Memorystatusex();
+            _memoryStatus.dwLength = (uint) Marshal.SizeOf(_memoryStatus);
 
 
             if (NetworkInterface.GetIsNetworkAvailable())
@@ -40,30 +40,30 @@ namespace MemoryBall
 
         public static string SetCpuLoad()
         {
-            CpuUsages[Index] = CpuCounter.NextValue();
+            CpuUsages[_index] = CpuCounter.NextValue();
 
-            if (++Index < Capacity)
-                return LastCpuLoad;
+            if (++_index < Capacity)
+                return _lastCpuLoad;
 
-            Index = 0;
-            return LastCpuLoad = $"{CpuUsages.Max():F0}%";
+            _index = 0;
+            return _lastCpuLoad = $"{CpuUsages.Max():F0}%";
         }
 
         public static int SetMemLoad()
         {
-            if (Index == 0)
-                _ = GlobalMemoryStatusEx(out MemoryStatus);
+            if (_index == 0)
+                _ = GlobalMemoryStatusEx(out _memoryStatus);
 
-            return MemoryStatus.dwMemoryLoad;
+            return _memoryStatus.dwMemoryLoad;
         }
 
         public static string GetToolTipMessage()
-            => $"占用：{(MemoryStatus.ullTotalPhys - MemoryStatus.ullAvailPhys) / ThreeTimes:F1}/{MemoryStatus.ullTotalPhys / ThreeTimes:F1} G\r\n"
-               + $"提交：{(MemoryStatus.ullTotalPageFile - MemoryStatus.ullAvailPageFile) / ThreeTimes:F1}/{MemoryStatus.ullTotalPageFile / ThreeTimes:F1} G";
+            => $"占用：{(_memoryStatus.ullTotalPhys - _memoryStatus.ullAvailPhys) / ThreeTimes:F1}/{_memoryStatus.ullTotalPhys / ThreeTimes:F1} G\r\n"
+               + $"提交：{(_memoryStatus.ullTotalPageFile - _memoryStatus.ullAvailPageFile) / ThreeTimes:F1}/{_memoryStatus.ullTotalPageFile / ThreeTimes:F1} G";
 
         public static string SetNetLoad()
         {
-            if (Index != 0) return LastNetLoad;
+            if (_index != 0) return _lastNetLoad;
 
             long sentValue = 0, receivedValue = 0;
 
@@ -76,12 +76,12 @@ namespace MemoryBall
                 receivedValue += instance.BytesReceived;
             }
 
-            LastNetLoad = $"↑{AddUnit(sentValue - LastNetSend)}\r\n↓{AddUnit(receivedValue - LastNetReceived)}";
+            _lastNetLoad = $"↑{AddUnit(sentValue - _lastNetSend)}\r\n↓{AddUnit(receivedValue - _lastNetReceived)}";
 
-            LastNetSend = sentValue;
-            LastNetReceived = receivedValue;
+            _lastNetSend = sentValue;
+            _lastNetReceived = receivedValue;
 
-            return LastNetLoad;
+            return _lastNetLoad;
         }
 
         private static string AddUnit(long value)
