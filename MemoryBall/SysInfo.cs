@@ -142,19 +142,6 @@ namespace MemoryBall
             }
         }
 
-        private string _toolTipMessage;
-
-        public string ToolTipMessage
-        {
-            get => _toolTipMessage;
-            set
-            {
-                if (_toolTipMessage == value) return;
-                _toolTipMessage = value;
-                OnPropertyChanged(nameof(ToolTipMessage));
-            }
-        }
-
         private string _cpuLoad;
 
         public string CpuLoad

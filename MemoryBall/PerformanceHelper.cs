@@ -57,10 +57,6 @@ namespace MemoryBall
             return _memoryStatus.dwMemoryLoad;
         }
 
-        public static string GetToolTipMessage()
-            => $"占用：{(_memoryStatus.ullTotalPhys - _memoryStatus.ullAvailPhys) / ThreeTimes:F1}/{_memoryStatus.ullTotalPhys / ThreeTimes:F1} G\r\n"
-               + $"提交：{(_memoryStatus.ullTotalPageFile - _memoryStatus.ullAvailPageFile) / ThreeTimes:F1}/{_memoryStatus.ullTotalPageFile / ThreeTimes:F1} G";
-
         public static string SetNetLoad()
         {
             if (_index != 0) return _lastNetLoad;

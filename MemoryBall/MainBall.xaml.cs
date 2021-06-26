@@ -82,8 +82,6 @@ namespace MemoryBall
                 _infoUpdatetimer.Start();
                 InfoUpdatetimer_Elapsed(default, default);
             }
-
-            _sysInfo.ToolTipMessage = PerformanceHelper.GetToolTipMessage();
         }
 
         private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)
