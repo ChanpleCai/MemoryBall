@@ -1,6 +1,5 @@
 ﻿using System.Windows.Media;
 using Windows.UI.ViewManagement;
-using Color = Windows.UI.Color;
 
 namespace MemoryBall
 {
@@ -8,21 +7,31 @@ namespace MemoryBall
     {
         public static readonly UISettings Settings = new();
 
+        private static readonly SolidColorBrush WhiteColor =
+            new(Color.FromArgb(255, 255, 255, 255));
+
         // https://stackoverflow.com/questions/51334674/how-to-detect-windows-10-light-dark-mode-in-win32-application
 
         public static SolidColorBrush Background
             => Settings.GetColorValue(UIColorType.Background).ToSolidColorBrush();
 
+        private static bool IsWhiteBackgroundColor
+            => Background == WhiteColor;
+
         public static SolidColorBrush MemColor
-            => Settings.GetColorValue(UIColorType.AccentDark1).ToSolidColorBrush();
-
-        public static SolidColorBrush CpuColor
-            => Settings.GetColorValue(UIColorType.AccentLight1).ToSolidColorBrush();
-
-        public static SolidColorBrush NetColor
             => Settings.GetColorValue(UIColorType.Accent).ToSolidColorBrush();
 
-        private static SolidColorBrush ToSolidColorBrush(this Color color)
-            => new(System.Windows.Media.Color.FromArgb(color.A, color.R, color.G, color.B));
+        public static SolidColorBrush CpuColor
+            => IsWhiteBackgroundColor
+                ? Settings.GetColorValue(UIColorType.AccentLight1).ToSolidColorBrush()
+                : Settings.GetColorValue(UIColorType.Accent).ToSolidColorBrush();
+
+        public static SolidColorBrush NetColor
+            => IsWhiteBackgroundColor
+                ? Settings.GetColorValue(UIColorType.Accent).ToSolidColorBrush()
+                : Settings.GetColorValue(UIColorType.AccentDark1).ToSolidColorBrush();
+
+        private static SolidColorBrush ToSolidColorBrush(this Windows.UI.Color color)
+            => new(Color.FromArgb(color.A, color.R, color.G, color.B));
     }
 }

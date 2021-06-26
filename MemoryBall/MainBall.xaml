@@ -11,7 +11,7 @@
         Loaded="Window_Loaded" MouseEnter="Window_MouseEnter" MouseLeave="MainBall_OnMouseLeave"
         MouseDoubleClick="Window_MouseDoubleClick">
     <Grid Name="MainGrid" Opacity="1">
-        <Border Name="BgBorder" BorderThickness="0" CornerRadius="46" Background="{Binding Path=BgColor}" Opacity="0.225" />
+        <Border Name="BgBorder" BorderThickness="0" CornerRadius="46" Background="{Binding Path=BgColor}" Opacity="0.025" />
         <Path Fill="{Binding Path=MemColor}" Opacity="0.95">
             <Path.Data>
                 <PathGeometry>
@@ -28,8 +28,8 @@
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="{Binding  Path=CpuLoad}" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Foreground="{Binding Path=CpuColor}" TextAlignment="Center"
-                       FontFamily="Calibri" FontSize="16" Opacity="0.95" />
-            <TextBlock Margin="0,2,0,0" Text="{Binding  Path=NetLoad}" HorizontalAlignment="Center"
+                       FontFamily="Calibri" FontSize="20" Opacity="0.95" />
+            <TextBlock Text="{Binding  Path=NetLoad}" HorizontalAlignment="Center"
                        VerticalAlignment="Center"
                        Foreground="{Binding Path=NetColor}" TextAlignment="Center"
                        FontFamily="Calibri" FontSize="10" Opacity="0.95" />

@@ -72,6 +72,7 @@ namespace MemoryBall
         private async void Window_MouseEnter(object sender, MouseEventArgs e)
         {
             _isMouseEnter = true;
+            BgBorder.Opacity = 0.125;
             await Task.Delay(Interval);
 
             if (!_isMouseEnter) return;
@@ -82,8 +83,6 @@ namespace MemoryBall
                 _infoUpdatetimer.Start();
                 InfoUpdatetimer_Elapsed(default, default);
             }
-
-            BgBorder.Opacity = 1;
         }
 
         private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -99,16 +98,17 @@ namespace MemoryBall
         private async void MainBall_OnMouseLeave(object sender, MouseEventArgs e)
         {
             _isMouseEnter = false;
+            BgBorder.Opacity = 0.025;
             await Task.Delay(Interval * 2);
 
             if (_isMouseEnter) return;
 
             var currentScreen = Screen.FromPoint(new Point((int) Left, (int) Top));
 
+
             if (!(Top - currentScreen.WorkingArea.Top < Constant)) return;
 
             Top = Constant - Height;
-            BgBorder.Opacity = 0.225;
 
             _infoUpdatetimer.Stop();
         }

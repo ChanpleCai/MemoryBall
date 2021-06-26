@@ -9,7 +9,6 @@ namespace MemoryBall
     public static class PerformanceHelper
     {
         private const int Capacity = 4;
-        private const double ThreeTimes = 1073741824;
         private static int _index;
         private static string _lastCpuLoad;
         private static string _lastNetLoad;
@@ -72,7 +71,7 @@ namespace MemoryBall
                 receivedValue += instance.BytesReceived;
             }
 
-            _lastNetLoad = $"↑{AddUnit(sentValue - _lastNetSend)}\r\n↓{AddUnit(receivedValue - _lastNetReceived)}";
+            _lastNetLoad = $"{AddUnit(sentValue - _lastNetSend)}\r\n{AddUnit(receivedValue - _lastNetReceived)}";
 
             _lastNetSend = sentValue;
             _lastNetReceived = receivedValue;
