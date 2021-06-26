@@ -11,7 +11,7 @@
         Loaded="Window_Loaded" MouseEnter="Window_MouseEnter" MouseLeave="MainBall_OnMouseLeave"
         MouseDoubleClick="Window_MouseDoubleClick">
     <Grid Name="MainGrid" Opacity="1">
-        <Border BorderThickness="0" CornerRadius="46" Background="{Binding Path=BgColor}" Opacity="0.225" />
+        <Border Name="BgBorder" BorderThickness="0" CornerRadius="46" Background="{Binding Path=BgColor}" Opacity="0.225" />
         <Path Fill="{Binding Path=MemColor}" Opacity="0.95">
             <Path.Data>
                 <PathGeometry>

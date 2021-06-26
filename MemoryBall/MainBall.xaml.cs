@@ -82,6 +82,8 @@ namespace MemoryBall
                 _infoUpdatetimer.Start();
                 InfoUpdatetimer_Elapsed(default, default);
             }
+
+            BgBorder.Opacity = 1;
         }
 
         private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -106,6 +108,8 @@ namespace MemoryBall
             if (!(Top - currentScreen.WorkingArea.Top < Constant)) return;
 
             Top = Constant - Height;
+            BgBorder.Opacity = 0.225;
+
             _infoUpdatetimer.Stop();
         }
     }
