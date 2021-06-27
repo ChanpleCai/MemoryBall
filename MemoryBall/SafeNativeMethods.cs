@@ -91,5 +91,26 @@ namespace MemoryBall
         private static extern IntPtr IntSetWindowLong(IntPtr hWnd, int nIndex, IntPtr dwNewLong);
 
         #endregion
+
+        #region SetThreadExecutionState
+
+        // http://www.pinvoke.net/default.aspx/kernel32.setthreadexecutionstate
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        public static extern ExecutionState SetThreadExecutionState(ExecutionState esFlags);
+
+        [FlagsAttribute]
+        public enum ExecutionState : uint
+        {
+            EsAwaymodeRequired = 0x00000040,
+            EsContinuous = 0x80000000,
+            EsDisplayRequired = 0x00000002,
+
+            EsSystemRequired = 0x00000001
+            // Legacy flag, should not be used.
+            // ES_USER_PRESENT = 0x00000004
+        }
+
+        #endregion
     }
 }

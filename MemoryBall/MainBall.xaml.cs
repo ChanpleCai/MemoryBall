@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -54,6 +55,7 @@ namespace MemoryBall
             _sysInfo.MemLoad = PerformanceHelper.SetMemLoad();
             _sysInfo.CpuLoad = PerformanceHelper.SetCpuLoad();
             _sysInfo.NetLoad = PerformanceHelper.SetNetLoad();
+            _ = SetThreadExecutionState(ExecutionState.EsDisplayRequired | ExecutionState.EsContinuous);
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -111,6 +113,14 @@ namespace MemoryBall
             Top = Constant - Height;
 
             _infoUpdatetimer.Stop();
+        }
+
+        /// <summary>Raises the <see cref="E:System.Windows.Window.Closing" /> event.</summary>
+        /// <param name="e">A <see cref="T:System.ComponentModel.CancelEventArgs" /> that contains the event data.</param>
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            _ = SetThreadExecutionState(ExecutionState.EsContinuous);
+            base.OnClosing(e);
         }
     }
 }
