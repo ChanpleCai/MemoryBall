@@ -20,7 +20,7 @@
                         <ArcSegment IsLargeArc="{Binding Path=IsLargeArc}" Size="44,44"
                                     Point="{Binding Path=OuterPoint}" SweepDirection="Clockwise" />
                         <LineSegment Point="{Binding Path=InnerPoint}" />
-                        <ArcSegment IsLargeArc="{Binding Path=IsLargeArc}" Size="34,34" Point="44,12" />
+                        <ArcSegment IsLargeArc="{Binding Path=IsLargeArc}" Size="34,34" Point="46,12" />
                     </PathFigure>
                 </PathGeometry>
             </Path.Data>
